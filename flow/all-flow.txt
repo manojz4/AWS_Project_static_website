@@ -1,0 +1,122 @@
+# In vscode create 3 files
+        index.html
+        styles.css
+            - create folder named images(if you want to add background image)
+            - place the image in this folder
+        script.js
+
+# Preview Your Website Locally
+Install Live Server Extension:
+        - Extensions
+        - "Live Server" (install)
+        - Right-click on index.html
+        - “Open with Live Server.”
+
+# Upload Your Website to Amazon S3
+Sign in to AWS Management Console:
+
+Create an S3 Bucket:
+
+        -Click “Create bucket.”
+        -Enter a unique bucket name (e.g., my-simple-website-bucket).
+        -Choose the AWS region where you want to store your bucket.
+        -Click “Create bucket” (keep other settings default for simplicity).
+
+# Upload Files (Optional):
+        Click the “Upload” button to add files to your bucket. You can drag and drop files or use the file picker.
+
+# Configure Static Website Hosting (If hosting a website):
+
+        -Go to the Properties tab.
+        -click “Edit.”
+        -static website hosting: Select “Enable.”
+        -Index Document: Enter index.html (or the main HTML file of your website).
+        -Error Document: Optionally, enter error.html (or any custom error page).
+        -Click “Save changes” to apply.
+
+# Check and Set Up IAM Permissions
+        -Create or Configure an IAM User with Required Permissions:
+
+        -Sign in to AWS Management Console:
+        -Open the AWS Management Console and log in with your AWS credentials.
+        -Navigate to IAM Console:
+
+        -Search for and select IAM (Identity and Access Management).
+        -Create a New IAM User (if needed):
+        -Go to Users and click Add user.
+        -Enter a username (e.g., website-manager).
+        -Select Programmatic access and AWS Management Console access if you need access through the AWS Console.
+        -Attach Policies to User:
+        -Choose Attach existing policies directly.
+        -Search for and select the policy AmazonS3FullAccess. This policy grants full access to S3 buckets and operations.
+        -Click Next: Tags and then Next: Review.
+        -Click Create user.
+
+*** Optional
+        Modify Permissions for Existing User:
+        Check Existing User Permissions:
+        Go to Users in the IAM console.
+        Select the user you’re using.
+        Check the Permissions tab to see if they have AmazonS3FullAccess or a similar policy.
+        Attach Required Policies:
+
+        If not, click Add permissions.
+        Choose Attach existing policies directly.
+        Select AmazonS3FullAccess.
+        Click Next: Review and then Add permissions.
+
+
+# Check Block Public Access Settings:
+
+    Click on Block public access settings.
+    Adjust Settings as Necessary:
+        -Block all public access: Uncheck this option if you want to allow public access.
+        -Block public access to buckets and objects granted through ACLs: You can uncheck this
+        if your policy uses ACLs to grant access.
+        -Block public access to buckets and objects granted through bucket policies: 
+        Uncheck this if your bucket policy is intended to grant public access.
+        -Save Changes:
+        -After making the necessary adjustments, click Save changes.
+
+# Update Bucket Policy
+    -Return to Bucket Permissions:
+    -In the S3 Console, select your bucket and go to the Permissions tab.
+    Edit Bucket Policy:
+
+Click on Bucket Policy.
+    Enter the Desired Policy:
+
+    For making the bucket’s contents publicly accessible (e.g., for a static website):
+
+        json
+        Copy code
+                    {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                        "Effect": "Allow",
+                        "Principal": "*",
+                        "Action": "s3:GetObject",
+                        "Resource": "arn:aws:s3:::your-bucket-name/*"
+                        }
+                    ]
+                    }
+                                **Replace your-bucket-name with the actual name of your bucket.
+
+Save the Policy:
+-Click Save changes.
+
+# Verify Configuration
+Check Bucket Configuration:
+
+Ensure that the bucket is configured for static website hosting if that’s your goal.
+Go to the Properties tab of the bucket and verify settings under Static website hosting.
+Upload Test Files:
+
+Upload some test files to your bucket to ensure they are accessible.
+Access Your Static Website:
+
+Use the static website endpoint provided in the Static website hosting section of the Properties tab to test access.
+
+
+
